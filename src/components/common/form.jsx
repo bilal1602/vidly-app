@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Input from "./input";
-import Dropdown from "./dropdown";
+import Select from "./select";
 import Joi from "joi-browser";
 class Form extends Component {
   state = {
@@ -17,7 +17,6 @@ class Form extends Component {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options); //comparing data obj with schema structure to check if they match
     if (!error) return null;
-    console.log(error);
     const errors = {};
     for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
@@ -47,14 +46,17 @@ class Form extends Component {
       </button>
     );
   };
-  renderDropdown = (name, label, options) => {
+  renderSelect = (name, label, options) => {
+    const { data, errors } = this.state;
+    debugger;
     return (
-      <Dropdown
+      <Select
         name={name}
+        value={data[name]}
         label={label}
         options={options}
-        defaultValue={(name = "")}
         onChange={this.handleChange}
+        error={errors[name]}
       />
     );
   };
