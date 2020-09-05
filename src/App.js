@@ -8,7 +8,6 @@ import MovieForm from "./components/movieForm";
 import Customers from "./components/customers";
 import LoginForm from "./components/common/loginForm";
 import RegisterForm from "./components/common/registerForm";
-import NewMovieForm from './components/common/newMovieForm';
 import { Route, Redirect, Switch } from "react-router-dom";
 
 function App() {

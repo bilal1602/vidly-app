@@ -1,11 +1,12 @@
-import React, { Component } from "react";
 import _ from "lodash";
-import MoviesTable from "./moviesTable";
-import ListGroup from "./common/listGroup";
-import Pagination from "./common/pagination";
-import { paginate } from "../utils/paginate";
-import { getMovies } from "../services/fakeMovieService";
 import { Link } from "react-router-dom";
+import MoviesTable from "./moviesTable";
+import React, { Component } from "react";
+import ListGroup from "./common/listGroup";
+import { paginate } from "../utils/paginate";
+import Pagination from "./common/pagination";
+import Input from "./common/input";
+import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 class Movies extends Component {
   state = {
@@ -39,6 +40,21 @@ class Movies extends Component {
   };
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+  handleSearchChange = ({ currentTarget: input }) => {
+    const movies = { ...this.state.movies };
+    const searchString = input.value.toLowerCase();
+    if (!searchString) return movies;
+    this.state.selectedGenre && this.setState({ selectedGenre: {} });
+    // const result = [];
+    // for (let movie of movies) {
+    //   movie.title.toLowerCase().includes(searchString) && result.push(movie);
+    // }
+    // const result = movies.reduce((arr, movie) => {
+    //   movie.title.toLowerCase().includes(searchString) && arr.push(movie);
+    //   return arr;
+    // });
+    // console.log(result);
   };
   getPagedData = () => {
     const {
@@ -75,6 +91,7 @@ class Movies extends Component {
             New Movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>
+          <Input name="searchMovie" onChange={this.handleSearchChange} />
           <MoviesTable
             movies={data}
             sortColumn={sortColumn}

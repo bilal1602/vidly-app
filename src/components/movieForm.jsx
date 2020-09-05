@@ -10,11 +10,12 @@ class MovieForm extends Form {
     errors: {},
   };
   schema = {
+    _id: Joi.string(),
     title: Joi.string().required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.number().min(0).required().label("Number in stock"),
     dailyRentalRate: Joi.number()
-      .min(1)
+      .min(0)
       .max(10)
       .required()
       .label("Hourly Rate"),
