@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import RegisterForm from "./components/registerForm";
 import LoginForm from "./components/common/loginForm";
 import { Route, Redirect, Switch } from "react-router-dom";
+import ProtectedRoute from './components/common/protectedRoute';
 
 
 function App() {
@@ -27,11 +28,10 @@ function App() {
       <main className="container">
         <Switch>
           <Route path="/logout" component={Logout} />
-          <Route path="/movies/:id" component={MovieForm} />
           <Route path="/customers" component={Customers} />
-          <Route path="/movies/new" component={MovieForm} />
+          <ProtectedRoute path="/movies/:id" component={MovieForm} />
+          <Route path="/movies" render={props => <Movies  {...props} user={user} />} />
           <Route path="/logout" component={Logout} />
-          <Route path="/movies" component={Movies} />
           <Route path="/rentals" component={Rentals} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegisterForm} />

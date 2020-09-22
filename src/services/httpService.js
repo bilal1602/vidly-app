@@ -1,30 +1,25 @@
 import axios from 'axios';
-import logger from './logService';
+import logger from './logService'
 
-const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-    timeout: 5000
-});
+axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('token');
 
-instance.interceptors.response.use(null,
-    ex => {
-        if (ex.response) {
-            logger.error(ex.response.data);
-        } else {
-            logger.error(ex.message);
+axios.interceptors.response.use(null,
+    error => {
+        const expectedError = error.response && error.response.status >= 400 && error.response.status < 500;
+        if (!expectedError) {
+            logger.log("Logging the error", error)
+            alert("An unexpected error occurred.");
         }
-        return Promise.reject(ex);
+        return Promise.reject(error);
     }
 );
-
-function setJWT(jwt) {
-    instance.defaults.headers.common['x-auth-token'] = jwt;
+function setJwt(jwt) {
+    axios.defaults.headers.common['x-auth-token'] = jwt;
 }
-
 export default {
-    setJWT,
-    get: instance.get,
-    post: instance.post,
-    put: instance.put,
-    delete: instance.delete
+    setJwt,
+    get: axios.get,
+    post: axios.post,
+    put: axios.put,
+    delete: axios.delete
 };
